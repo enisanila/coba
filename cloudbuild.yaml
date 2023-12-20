@@ -1,0 +1,21 @@
+# Docker Build
+- name: 'gcr.io/cloud-builders/docker'
+  args: [
+          'build',
+          '-t',
+          'us-west4-docker.pkg.dev/capstone-project-406514/financify:${SHORT_SHA}',
+          '-t',
+          'us-west4-docker.pkg.dev/capstone-project-406514/financify:latest',
+          '--cache-from',
+          'us-west4-docker.pkg.dev/capstone-project-406514/financify:latest',
+          '.'
+        ]
+
+# Docker push to Google Artifact Registry
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push',  'us-west4-docker.pkg.dev/capstone-project-406514/financify:${SHORT_SHA}']
+
+# Store images in Google Artifact Registry 
+images:
+      - us-west4-docker.pkg.dev/capstone-project-406514/financify/static:${SHORT_SHA}
+      - us-west4-docker.pkg.dev/capstone-project-406514/financify/static:latest
